@@ -1,0 +1,36 @@
+---
+import Layout from '../layouts/Layout.astro';
+import Header from '../components/Header.astro';
+import Hero from '../components/Hero.astro';
+import Etape from '../components/Etape.astro';
+import Parcours from '../components/Parcours.astro';
+import Programme from '../components/Programme.astro';
+import Maillot from '../components/Maillot.astro';
+import Conditions from '../components/Conditions.astro';
+import Inscription from '../components/Inscription.astro';
+import Footer from '../components/Footer.astro';
+
+import depart from '../assets/depart.jpg';
+import arrivee from '../assets/arrivee.jpg';
+import { etapes } from '../data/pelerinage';
+
+const images = { depart, arrivee };
+---
+
+<Layout>
+  <Header />
+  <main>
+    <Hero />
+    {
+      etapes.map((etape, index) => (
+        <Etape {...etape} image={images[etape.image]} inverse={index % 2 === 1} />
+      ))
+    }
+    <Parcours />
+    <Programme />
+    <Maillot />
+    <Conditions />
+    <Inscription />
+  </main>
+  <Footer />
+</Layout>

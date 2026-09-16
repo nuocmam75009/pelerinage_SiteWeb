@@ -1,0 +1,105 @@
+# Pèlerinage cycliste Paris — Chartres
+
+Site vitrine de la deuxième édition du pèlerinage cycliste Paris — Chartres,
+**samedi 12 juin 2027**.
+
+Site statique construit avec [Astro](https://astro.build) et
+[Tailwind CSS](https://tailwindcss.com). Aucune base de données, aucun serveur :
+le résultat est un dossier de fichiers HTML/CSS/images à déposer chez
+n'importe quel hébergeur statique.
+
+## Démarrer
+
+```sh
+npm install      # une seule fois
+npm run dev      # http://localhost:4321
+npm run build    # génère le site dans dist/
+npm run preview  # prévisualise le résultat de build
+```
+
+## Modifier le contenu
+
+**Tous les textes du site sont dans un seul fichier :
+[`src/data/pelerinage.ts`](src/data/pelerinage.ts).**
+
+| À modifier | Où |
+| --- | --- |
+| Date, accroche, statut des inscriptions | `edition` |
+| Lien du formulaire d'inscription, e-mail de contact | `site` |
+| Chiffres clés (100 km, 20 km/h, 49 €…) | `chiffres` |
+| Départ et arrivée (heures, adresses, liens Google Maps) | `etapes` |
+| Texte du parcours, chemin du GPX | `parcours` |
+| Horaires de la journée | `programme` |
+| Maillot et devise | `maillot` |
+| Conditions d'inscription | `conditions` |
+| Entrées du menu | `navigation` |
+
+Les photos sont dans [`src/assets/`](src/assets/). Pour en changer une, remplacez
+le fichier en gardant le même nom : Astro régénère automatiquement les versions
+WebP et les tailles adaptées à chaque écran.
+
+## Le parcours et la carte
+
+La trace GPX ([`src/assets/`](src/assets/), export Komoot) est lue **au moment
+du build** par [`src/lib/gpx.ts`](src/lib/gpx.ts), qui en tire :
+
+- la distance (100,1 km) et le dénivelé positif (587 m), recalculés depuis les
+  points — donc toujours cohérents avec le fichier ;
+- une trace simplifiée (Douglas-Peucker) : 1 993 points ramenés à ~530, soit
+  10 ko envoyés au visiteur au lieu de 270 ko ;
+- les waypoints du GPX, dont les ravitaillements, affichés sur la carte ;
+- le profil altimétrique, dessiné en SVG côté serveur (aucun JavaScript).
+
+La carte utilise [Leaflet](https://leafletjs.com) et les tuiles OpenStreetMap,
+libres et sans clé d'API. Le zoom à la molette ne s'active qu'après un clic,
+pour ne pas bloquer le défilement de la page.
+
+**Pour changer de parcours** : déposez le nouveau GPX dans `src/assets/`,
+mettez à jour `parcours.fichierSource` dans `src/data/pelerinage.ts`, et copiez
+le fichier dans `public/` pour qu'il reste téléchargeable. Distance, dénivelé,
+profil et carte se mettent à jour tout seuls.
+
+## Structure
+
+```
+src/
+├── data/pelerinage.ts     ← tout le contenu éditorial
+├── lib/gpx.ts             ← lecture du GPX au build (distance, D+, profil)
+├── pages/index.astro      ← l'ordre des sections de la page
+├── layouts/Layout.astro   ← <head>, métadonnées, polices
+├── components/            ← Header, Hero, Etape, Parcours, Programme,
+│                             Maillot, Conditions, Inscription, Footer, Bouton
+├── styles/global.css      ← couleurs de marque et polices
+└── assets/                ← photos et bannière
+```
+
+## Identité visuelle
+
+| Couleur | Valeur | Usage |
+| --- | --- | --- |
+| Rose | `#fd97c6` | fonds, boutons, accents |
+| Rose clair | `#ffeaf3` | fonds de section alternés |
+| Rose foncé | `#e35c9d` | titres, liens, survol |
+| Encre | `#2a1b22` | texte courant |
+
+Polices : **Fraunces** pour les titres (proche du lettrage de la bannière),
+**Inter** pour le texte.
+
+## Mise en ligne
+
+Le site est 100 % statique — l'hébergement est gratuit chez Cloudflare Pages,
+Netlify ou Vercel.
+
+1. Pousser ce dossier sur un dépôt GitHub.
+2. Connecter le dépôt à l'hébergeur.
+3. Commande de build : `npm run build` — dossier à publier : `dist`.
+4. Brancher le domaine `pelerinagecycliste.fr` sur l'hébergeur
+   (il pointe aujourd'hui vers WordPress.com).
+
+## Inscriptions
+
+Le bouton « S'inscrire » pointe vers le formulaire Google existant
+(`site.lienInscription`). Pour encaisser les 49 € en ligne, **HelloAsso** est
+l'option recommandée : gratuit, français, conçu pour les associations, avec
+billetterie et reçus. Il suffira alors de remplacer l'URL dans
+`src/data/pelerinage.ts`.

@@ -1,0 +1,245 @@
+---
+import { lireGpx } from '../lib/gpx';
+import { parcours as texteParcours } from '../data/pelerinage';
+
+const gpx = lireGpx(texteParcours.fichierSource);
+
+const donnees = {
+  trace: gpx.trace,
+  balises: gpx.balises,
+};
+
+const statistiques = [
+  { valeur: `${gpx.distanceKm.toFixed(1).replace('.', ',')} km`, libelle: 'de parcours' },
+  { valeur: `${gpx.denivelePositifM} m`, libelle: 'de dénivelé positif' },
+  { valeur: `${gpx.altitudeMaxM} m`, libelle: 'au point le plus haut' },
+];
+
+// Profil altimétrique : tracé côté serveur, aucun JavaScript nécessaire.
+const largeur = 1000;
+const hauteur = 160;
+const altMin = Math.min(...gpx.profil.map(([, a]) => a));
+const altMax = Math.max(...gpx.profil.map(([, a]) => a));
+const distanceMax = gpx.profil[gpx.profil.length - 1][0];
+const marge = 8;
+
+const enX = (d: number) => (d / distanceMax) * largeur;
+const enY = (a: number) =>
+  hauteur - marge - ((a - altMin) / Math.max(1, altMax - altMin)) * (hauteur - marge * 2);
+
+const ligne = gpx.profil.map(([d, a], i) => `${i === 0 ? 'M' : 'L'}${enX(d).toFixed(1)},${enY(a).toFixed(1)}`).join(' ');
+const aire = `${ligne} L${largeur},${hauteur} L0,${hauteur} Z`;
+---
+
+<section id="parcours" class="scroll-mt-20 bg-rose-clair py-16 sm:py-24">
+  <div class="mx-auto max-w-5xl px-5">
+    <h2 class="display text-center text-3xl text-rose-fonce sm:text-4xl">{texteParcours.titre}</h2>
+
+    <p class="mx-auto mt-5 max-w-2xl text-center text-lg leading-relaxed text-encre/70">
+      {texteParcours.texte}
+    </p>
+
+    <dl class="mx-auto mt-10 grid max-w-2xl grid-cols-3 gap-3 sm:gap-6">
+      {
+        statistiques.map((stat) => (
+          <div class="min-w-0 text-center">
+            <dt class="display text-xl text-rose-fonce sm:text-3xl">{stat.valeur}</dt>
+            <dd class="mt-1 text-xs text-balance text-encre/65 sm:text-sm">{stat.libelle}</dd>
+          </div>
+        ))
+      }
+    </dl>
+
+    <div class="mt-10 overflow-hidden rounded-2xl bg-white shadow-sm">
+      <div
+        id="carte-parcours"
+        class="h-[420px] w-full sm:h-[520px]"
+        role="application"
+        aria-label={`Carte du parcours ${gpx.nom}`}
+      >
+        <noscript>
+          <p class="p-6 text-center text-encre/70">
+            La carte interactive nécessite JavaScript. La trace reste téléchargeable au format GPX
+            ci-dessous.
+          </p>
+        </noscript>
+      </div>
+
+      <figure class="border-t border-rose-clair px-4 py-5 sm:px-6">
+        <figcaption class="mb-2 text-sm font-semibold text-encre/70">Profil altimétrique</figcaption>
+        <svg
+          viewBox={`0 0 ${largeur} ${hauteur}`}
+          class="h-28 w-full sm:h-36"
+          preserveAspectRatio="none"
+          role="img"
+          aria-label={`Profil altimétrique : ${gpx.denivelePositifM} mètres de dénivelé positif, entre ${gpx.altitudeMinM} et ${gpx.altitudeMaxM} mètres d'altitude`}
+        >
+          <path d={aire} fill="var(--color-rose)" fill-opacity="0.25" />
+          <path
+            d={ligne}
+            fill="none"
+            stroke="var(--color-rose-fonce)"
+            stroke-width="2.5"
+            stroke-linejoin="round"
+            vector-effect="non-scaling-stroke"
+          />
+        </svg>
+        <div class="mt-1 flex flex-wrap justify-between gap-x-3 text-xs text-encre/50">
+          <span>Paris — 0 km</span>
+          <span>{gpx.altitudeMinM} m à {gpx.altitudeMaxM} m</span>
+          <span>Chartres — {gpx.distanceKm.toFixed(1).replace('.', ',')} km</span>
+        </div>
+      </figure>
+    </div>
+
+    <p class="mt-8 text-center">
+      <a
+        href={texteParcours.fichierPublic}
+        download
+        class="inline-flex items-center gap-2 rounded-full border-2 border-rose px-6 py-3 text-base font-semibold text-rose-fonce transition-colors hover:bg-white"
+      >
+        <span aria-hidden="true">↓</span>
+        Télécharger la trace GPX
+      </a>
+    </p>
+  </div>
+</section>
+
+<script type="application/json" id="donnees-parcours" set:html={JSON.stringify(donnees)} />
+
+<script>
+  import L from 'leaflet';
+  import 'leaflet/dist/leaflet.css';
+
+  interface DonneesParcours {
+    trace: [number, number][];
+    balises: { nom: string; lat: number; lon: number }[];
+  }
+
+  const conteneur = document.getElementById('carte-parcours');
+  const brut = document.getElementById('donnees-parcours')?.textContent;
+  if (conteneur && brut) {
+    const { trace, balises }: DonneesParcours = JSON.parse(brut);
+
+    const carte = L.map(conteneur, {
+      scrollWheelZoom: false, // on ne vole pas le scroll du visiteur
+      attributionControl: true,
+    });
+
+    // Tuiles OpenStreetMap : libres et sans clé d'API.
+    L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png', {
+      maxZoom: 18,
+      attribution:
+        '&copy; les contributeurs <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a>',
+    }).addTo(carte);
+
+    carte.attributionControl.setPrefix('');
+
+    const rose = getComputedStyle(document.documentElement).getPropertyValue('--color-rose-fonce').trim() || '#e35c9d';
+
+    // Liseré blanc sous la trace pour qu'elle reste lisible sur le fond de carte.
+    L.polyline(trace, { color: '#ffffff', weight: 8, opacity: 0.9 }).addTo(carte);
+    const ligne = L.polyline(trace, { color: rose, weight: 4, opacity: 1 }).addTo(carte);
+
+    const pastille = (contenu: string, classe: string) =>
+      L.divIcon({
+        html: `<span class="${classe}">${contenu}</span>`,
+        className: 'marqueur-parcours',
+        iconSize: [28, 28],
+        iconAnchor: [14, 14],
+      });
+
+    const depart = trace[0];
+    const arrivee = trace[trace.length - 1];
+
+    const distanceKm = (a: [number, number], b: [number, number]) => {
+      const rad = Math.PI / 180;
+      const dLat = (b[0] - a[0]) * rad;
+      const dLon = (b[1] - a[1]) * rad;
+      const h =
+        Math.sin(dLat / 2) ** 2 +
+        Math.cos(a[0] * rad) * Math.cos(b[0] * rad) * Math.sin(dLon / 2) ** 2;
+      return 2 * 6371 * Math.asin(Math.sqrt(h));
+    };
+
+    for (const balise of balises) {
+      const position: [number, number] = [balise.lat, balise.lon];
+
+      // On masque les waypoints qui font doublon avec le départ ou l'arrivée.
+      if (distanceKm(position, depart) < 1.5 || distanceKm(position, arrivee) < 1.5) continue;
+
+      const estRavito = /ravito/i.test(balise.nom);
+      L.marker(position, {
+        icon: pastille(estRavito ? 'R' : '', estRavito ? 'pastille pastille-ravito' : 'pastille pastille-lieu'),
+        title: estRavito ? 'Ravitaillement' : balise.nom,
+        alt: balise.nom,
+      })
+        .addTo(carte)
+        .bindPopup(estRavito ? `<strong>Ravitaillement</strong>` : balise.nom);
+    }
+
+    L.marker(depart, { icon: pastille('D', 'pastille pastille-etape'), title: 'Départ' })
+      .addTo(carte)
+      .bindPopup('<strong>Départ</strong><br>Église Saint-Vincent-de-Paul, Paris');
+
+    L.marker(arrivee, { icon: pastille('A', 'pastille pastille-etape'), title: 'Arrivée' })
+      .addTo(carte)
+      .bindPopup('<strong>Arrivée</strong><br>Cathédrale Notre-Dame de Chartres');
+
+    carte.fitBounds(ligne.getBounds(), { padding: [30, 30] });
+
+    // Le zoom à la molette ne s'active qu'après un clic sur la carte.
+    carte.on('click', () => carte.scrollWheelZoom.enable());
+    carte.on('mouseout', () => carte.scrollWheelZoom.disable());
+  }
+</script>
+
+<style is:global>
+  .marqueur-parcours {
+    background: none;
+    border: none;
+  }
+
+  .pastille {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 28px;
+    height: 28px;
+    border-radius: 9999px;
+    background: var(--color-rose-fonce);
+    color: white;
+    font-size: 13px;
+    font-weight: 700;
+    line-height: 1;
+    box-shadow: 0 0 0 3px white;
+  }
+
+  .pastille-ravito {
+    background: white;
+    color: var(--color-rose-fonce);
+    box-shadow: 0 0 0 3px var(--color-rose-fonce);
+  }
+
+  .pastille-lieu {
+    width: 14px;
+    height: 14px;
+    background: white;
+    box-shadow: 0 0 0 3px var(--color-rose);
+  }
+
+  /* Fond de carte désaturé : la trace rose reste l'élément le plus lisible. */
+  .leaflet-tile-pane {
+    filter: saturate(0.35) brightness(1.06);
+  }
+
+  .leaflet-container {
+    font: inherit;
+    background: var(--color-rose-clair);
+  }
+
+  .leaflet-popup-content {
+    font-size: 14px;
+    line-height: 1.45;
+  }
+</style>

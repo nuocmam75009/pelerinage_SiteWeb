@@ -1,0 +1,27 @@
+---
+interface Props {
+  href: string;
+  variante?: 'plein' | 'contour' | 'blanc';
+  class?: string;
+  externe?: boolean;
+}
+
+const { href, variante = 'plein', class: classe = '', externe = true } = Astro.props;
+
+const base =
+  'inline-flex items-center justify-center gap-2 rounded-full px-7 py-3.5 text-base font-semibold transition-colors duration-200 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-rose-fonce';
+
+const variantes = {
+  plein: 'bg-rose text-white hover:bg-rose-fonce',
+  contour: 'border-2 border-rose text-rose-fonce hover:bg-rose-clair',
+  blanc: 'bg-white text-rose-fonce hover:bg-rose-clair',
+};
+---
+
+<a
+  href={href}
+  class={`${base} ${variantes[variante]} ${classe}`}
+  {...externe ? { target: '_blank', rel: 'noopener noreferrer' } : {}}
+>
+  <slot />
+</a>

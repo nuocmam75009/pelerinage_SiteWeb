@@ -1,0 +1,29 @@
+---
+import { programme } from '../data/pelerinage';
+---
+
+<section id="programme" class="scroll-mt-20 bg-white py-16 sm:py-24">
+  <div class="mx-auto max-w-3xl px-5">
+    <h2 class="display text-center text-3xl text-rose-fonce sm:text-4xl">Programme</h2>
+
+    <ol class="mt-12 space-y-0">
+      {
+        programme.map((moment, index) => (
+          <li class="flex gap-5 sm:gap-8">
+            <div class="flex flex-col items-center">
+              <span class="mt-1.5 size-3.5 shrink-0 rounded-full bg-rose" aria-hidden="true" />
+              {index < programme.length - 1 && (
+                <span class="w-0.5 grow bg-rose/40" aria-hidden="true" />
+              )}
+            </div>
+
+            <div class="pb-8">
+              <p class="display text-xl text-rose-fonce">{moment.heure}</p>
+              <p class="mt-1 text-lg text-encre/80">{moment.texte}</p>
+            </div>
+          </li>
+        ))
+      }
+    </ol>
+  </div>
+</section>

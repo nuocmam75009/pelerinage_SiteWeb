@@ -1,0 +1,33 @@
+---
+import { site, navigation } from '../data/pelerinage';
+---
+
+<header class="sticky top-0 z-50 border-b border-rose-clair bg-white/90 backdrop-blur-sm">
+  <div class="mx-auto flex max-w-6xl items-center justify-between gap-4 px-5 py-3.5">
+    <a href="#top" class="display text-xl text-rose-fonce sm:text-2xl">
+      {site.nom}
+    </a>
+
+    <nav aria-label="Navigation principale" class="hidden items-center gap-7 md:flex">
+      {
+        navigation.map((lien) => (
+          <a
+            href={lien.href}
+            class="text-sm font-medium text-encre/70 transition-colors hover:text-rose-fonce"
+          >
+            {lien.libelle}
+          </a>
+        ))
+      }
+    </nav>
+
+    <a
+      href={site.lienInscription}
+      target="_blank"
+      rel="noopener noreferrer"
+      class="rounded-full bg-rose px-5 py-2.5 text-sm font-semibold text-white transition-colors hover:bg-rose-fonce"
+    >
+      S’inscrire
+    </a>
+  </div>
+</header>

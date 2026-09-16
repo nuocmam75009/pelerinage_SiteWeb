@@ -1,0 +1,28 @@
+---
+import { Image } from 'astro:assets';
+import maillotImg from '../assets/maillot.jpg';
+import { maillot } from '../data/pelerinage';
+---
+
+<section id="maillot" class="scroll-mt-20 py-16 sm:py-24">
+  <div class="mx-auto max-w-5xl px-5 text-center">
+    <h2 class="display text-3xl text-rose-fonce sm:text-4xl">{maillot.titre}</h2>
+
+    <p class="display mt-5 text-2xl text-encre sm:text-3xl">
+      «&nbsp;{maillot.devise}&nbsp;»
+    </p>
+
+    <Image
+      src={maillotImg}
+      alt="Le maillot rose du pèlerinage cycliste, de face, de profil et de dos"
+      widths={[640, 1024, 1600]}
+      sizes="(max-width: 1024px) 100vw, 1024px"
+      class="mt-10 w-full"
+      loading="lazy"
+    />
+
+    <p class="mx-auto mt-8 max-w-2xl text-lg leading-relaxed text-encre/70">
+      {maillot.texte}
+    </p>
+  </div>
+</section>

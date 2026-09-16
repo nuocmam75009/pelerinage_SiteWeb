@@ -1,0 +1,27 @@
+---
+import { conditions } from '../data/pelerinage';
+---
+
+<section id="conditions" class="scroll-mt-20 bg-rose-clair py-16 sm:py-24">
+  <div class="mx-auto max-w-3xl px-5">
+    <h2 class="display text-center text-3xl text-rose-fonce sm:text-4xl">
+      Conditions d’inscription au pèlerinage
+    </h2>
+
+    <ul class="mt-12 space-y-5">
+      {
+        conditions.map((condition) => (
+          <li class="flex gap-4">
+            <span
+              class="mt-1 flex size-6 shrink-0 items-center justify-center rounded-full bg-rose text-sm font-bold text-white"
+              aria-hidden="true"
+            >
+              ✓
+            </span>
+            <span class="text-lg leading-relaxed text-encre/80">{condition}</span>
+          </li>
+        ))
+      }
+    </ul>
+  </div>
+</section>

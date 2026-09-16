@@ -1,0 +1,26 @@
+---
+import { site, edition } from '../data/pelerinage';
+import Bouton from './Bouton.astro';
+---
+
+<section id="inscription" class="scroll-mt-20 bg-rose py-16 text-center sm:py-24">
+  <div class="mx-auto max-w-2xl px-5">
+    <h2 class="display text-3xl text-white sm:text-4xl">{edition.statutInscriptions}</h2>
+
+    <p class="mt-5 text-lg text-white/95">
+      Rejoignez la deuxième édition du pèlerinage cycliste Paris — Chartres,{' '}
+      <time datetime={edition.dateISO}>{edition.date}</time>.
+    </p>
+
+    <div class="mt-9">
+      <Bouton href={site.lienInscription} variante="blanc">Cliquez ici</Bouton>
+    </div>
+
+    <p class="mt-8 text-white/90">
+      Une question ?{' '}
+      <a href={`mailto:${site.email}`} class="font-semibold underline underline-offset-4">
+        {site.email}
+      </a>
+    </p>
+  </div>
+</section>
