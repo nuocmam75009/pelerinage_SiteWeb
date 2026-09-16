@@ -242,6 +242,17 @@ const aire = `${ligne} L${largeur},${hauteur} L0,${hauteur} Z`;
   .leaflet-container {
     font: inherit;
     background: var(--color-rose-clair);
+
+    /*
+      Leaflet empile ses panneaux très haut (z-index 400 pour les calques, 800
+      pour les contrôles), bien au-dessus de l'en-tête collant qui est à 50 :
+      la carte passait donc par-dessus au défilement. `isolation` enferme toute
+      cette pile dans un contexte d'empilement local, dont le z-index vaut 0 :
+      les valeurs internes de Leaflet ne sortent plus du cadre de la carte, et
+      l'en-tête repasse devant.
+    */
+    isolation: isolate;
+    z-index: 0;
   }
 
   .leaflet-popup-content {
