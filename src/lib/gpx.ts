@@ -1,5 +1,3 @@
-import { readFileSync } from 'node:fs';
-
 export interface Point {
   lat: number;
   lon: number;
@@ -92,13 +90,17 @@ function simplifier(points: Point[], tolerance: number): Point[] {
 }
 
 /**
- * Lit un GPX au moment du build et en extrait la trace, les waypoints
- * et les statistiques. Rien de tout ceci ne tourne dans le navigateur :
- * seul le résultat (quelques kilo-octets) est envoyé au visiteur.
+ * Analyse le contenu d'un GPX et en extrait la trace, les waypoints
+ * et les statistiques. Appelée au moment du build : rien de tout ceci
+ * ne tourne dans le navigateur, seul le résultat (quelques kilo-octets)
+ * est envoyé au visiteur.
+ *
+ * Le XML est passé en argument plutôt que lu sur le disque : l'import
+ * `?raw` l'intègre au bundle, ce qui fonctionne aussi bien en build
+ * statique que dans les environnements sans accès au système de
+ * fichiers (workerd chez Cloudflare, par exemple).
  */
-export function lireGpx(chemin: string, toleranceDegres = 0.00008): Parcours {
-  const xml = readFileSync(chemin, 'utf-8');
-
+export function analyserGpx(xml: string, toleranceDegres = 0.00008): Parcours {
   const nom = xml.match(/<metadata>[\s\S]*?<name>([^<]*)<\/name>/)?.[1]?.trim() ?? 'Parcours';
 
   const points: Point[] = [];
@@ -112,7 +114,7 @@ export function lireGpx(chemin: string, toleranceDegres = 0.00008): Parcours {
   }
 
   if (points.length === 0) {
-    throw new Error(`Aucun point de trace trouvé dans ${chemin}`);
+    throw new Error('Aucun point de trace trouvé dans le GPX fourni.');
   }
 
   const balises: Balise[] = [];

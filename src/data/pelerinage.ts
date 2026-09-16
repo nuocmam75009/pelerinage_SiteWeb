@@ -26,10 +26,11 @@ export const parcours = {
   titre: 'Le parcours',
   texte:
     'De l’église Saint-Vincent-de-Paul à la cathédrale de Chartres, 100 km par la vallée de Chevreuse et la forêt de Rambouillet. Deux ravitaillements sont prévus sur la route.',
-  /** Trace Komoot de l’édition précédente, lue au moment du build. */
-  fichierSource: 'src/assets/2026-06-20_De St-Vincent de Paul à Chartres.gpx',
-  /** Copie téléchargeable par les visiteurs (dossier public/). */
-  fichierPublic: '/parcours-paris-chartres.gpx',
+  /**
+   * Le GPX lui-même est importé dans Parcours.astro (Vite exige un chemin
+   * littéral). Ici, seulement le nom proposé au visiteur qui le télécharge.
+   */
+  nomFichierTelecharge: 'pelerinage-cycliste-paris-chartres.gpx',
 };
 
 export const maillot = {

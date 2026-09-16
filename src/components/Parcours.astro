@@ -1,8 +1,14 @@
 ---
-import { lireGpx } from '../lib/gpx';
+import { analyserGpx } from '../lib/gpx';
 import { parcours as texteParcours } from '../data/pelerinage';
 
-const gpx = lireGpx(texteParcours.fichierSource);
+// `?raw` intègre le GPX au bundle au moment du build ; `?url` en publie
+// une copie téléchargeable. Un seul fichier source, donc les statistiques
+// affichées et la trace proposée ne peuvent pas diverger.
+import gpxBrut from '../assets/parcours-paris-chartres.gpx?raw';
+import gpxUrl from '../assets/parcours-paris-chartres.gpx?url';
+
+const gpx = analyserGpx(gpxBrut);
 
 const donnees = {
   trace: gpx.trace,
@@ -94,8 +100,8 @@ const aire = `${ligne} L${largeur},${hauteur} L0,${hauteur} Z`;
 
     <p class="mt-8 text-center">
       <a
-        href={texteParcours.fichierPublic}
-        download
+        href={gpxUrl}
+        download={texteParcours.nomFichierTelecharge}
         class="inline-flex items-center gap-2 rounded-full border-2 border-rose px-6 py-3 text-base font-semibold text-rose-fonce transition-colors hover:bg-white"
       >
         <span aria-hidden="true">↓</span>

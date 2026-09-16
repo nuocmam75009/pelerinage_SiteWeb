@@ -40,8 +40,10 @@ WebP et les tailles adaptées à chaque écran.
 
 ## Le parcours et la carte
 
-La trace GPX ([`src/assets/`](src/assets/), export Komoot) est lue **au moment
-du build** par [`src/lib/gpx.ts`](src/lib/gpx.ts), qui en tire :
+La trace GPX ([`src/assets/parcours-paris-chartres.gpx`](src/assets/parcours-paris-chartres.gpx),
+export Komoot) est intégrée au bundle par un import `?raw` dans
+[`Parcours.astro`](src/components/Parcours.astro), puis analysée **au moment du
+build** par [`src/lib/gpx.ts`](src/lib/gpx.ts), qui en tire :
 
 - la distance (100,1 km) et le dénivelé positif (587 m), recalculés depuis les
   points — donc toujours cohérents avec le fichier ;
@@ -54,10 +56,16 @@ La carte utilise [Leaflet](https://leafletjs.com) et les tuiles OpenStreetMap,
 libres et sans clé d'API. Le zoom à la molette ne s'active qu'après un clic,
 pour ne pas bloquer le défilement de la page.
 
-**Pour changer de parcours** : déposez le nouveau GPX dans `src/assets/`,
-mettez à jour `parcours.fichierSource` dans `src/data/pelerinage.ts`, et copiez
-le fichier dans `public/` pour qu'il reste téléchargeable. Distance, dénivelé,
-profil et carte se mettent à jour tout seuls.
+Le fichier n'est jamais lu depuis le disque au moment du rendu : les imports
+`?raw` (contenu) et `?url` (copie téléchargeable) l'embarquent dans le bundle.
+C'est ce qui permet au build de passer aussi dans les environnements sans
+système de fichiers, comme le bac à sable workerd utilisé par l'adaptateur
+Cloudflare.
+
+**Pour changer de parcours** : remplacez
+`src/assets/parcours-paris-chartres.gpx` en gardant le même nom. Distance,
+dénivelé, profil, carte et fichier téléchargeable se mettent à jour tout seuls —
+il n'y a qu'un seul exemplaire du fichier, ils ne peuvent pas diverger.
 
 ## Structure
 
