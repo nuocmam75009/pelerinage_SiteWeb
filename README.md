@@ -13,7 +13,7 @@ n'importe quel hébergeur statique.
 ```sh
 npm install      # une seule fois
 npm run dev      # http://localhost:4321
-npm run build    # génère le site dans dist/
+npm run build    # génère le site dans dist/client/
 npm run preview  # prévisualise le résultat de build
 ```
 
@@ -95,14 +95,32 @@ Polices : **Fraunces** pour les titres (proche du lettrage de la bannière),
 
 ## Mise en ligne
 
-Le site est 100 % statique — l'hébergement est gratuit chez Cloudflare Pages,
-Netlify ou Vercel.
+Le site est 100 % statique — l'hébergement est gratuit chez Cloudflare Pages.
 
 1. Pousser ce dossier sur un dépôt GitHub.
 2. Connecter le dépôt à l'hébergeur.
-3. Commande de build : `npm run build` — dossier à publier : `dist`.
+3. Commande de build : `npm run build` — dossier à publier : **`dist/client`**.
 4. Brancher le domaine `pelerinagecycliste.fr` sur l'hébergeur
    (il pointe aujourd'hui vers WordPress.com).
+
+Le fichier `.node-version` impose Node 22 : Astro 7 exige au moins la 22.12,
+alors que les hébergeurs démarrent souvent sur une version plus ancienne.
+
+### L'adaptateur Cloudflare
+
+L'environnement de build de Cloudflare ajoute `@astrojs/cloudflare` de lui-même,
+même s'il est absent du dépôt. Il est donc déclaré explicitement dans
+[`astro.config.mjs`](astro.config.mjs), afin d'en choisir la configuration.
+
+Le réglage qui compte est `imageService: 'compile'`. Par défaut l'adaptateur
+bascule sur **Cloudflare Images** : aucun WebP n'est produit au build, et les
+`<img>` pointent vers un point d'entrée dynamique `/_image?href=…` servi par un
+Worker qui réclame un binding `IMAGES` sur le projet. Sans ce binding, toutes
+les images du site renvoient une erreur. En `'compile'`, elles sont optimisées
+au build, comme dans n'importe quel site statique.
+
+Conséquence : le site est généré dans `dist/client/` (et non `dist/`), avec un
+`dist/server/` à côté. C'est ce premier dossier qu'il faut publier.
 
 ## Inscriptions
 
