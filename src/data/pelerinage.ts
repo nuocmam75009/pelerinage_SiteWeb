@@ -26,7 +26,7 @@ export const edition = {
 export const parcours = {
   titre: 'Le parcours',
   texte:
-    'De l’église Saint-Vincent-de-Paul à la cathédrale de Chartres, 100 km par la vallée de Chevreuse et la forêt de Rambouillet. Deux ravitaillements sont prévus sur la route.',
+    'De l’Eglise Saint-Vincent-de-Paul à la Cathédrale Notre-Dame de Chartres, 100 km par la vallée de Chevreuse et la forêt de Rambouillet. Deux ravitaillements sont prévus sur la route.',
   /**
    * Le GPX lui-même est importé dans Parcours.astro (Vite exige un chemin
    * littéral). Ici, seulement le nom proposé au visiteur qui le télécharge.
@@ -45,7 +45,7 @@ export const chiffres = [
   { valeur: '100 km', libelle: 'de Paris à Chartres' },
   { valeur: '20 km/h', libelle: 'de moyenne minimum' },
   { valeur: '5 h', libelle: 'de route, 7h → 12h' },
-  { valeur: '49 €', libelle: 'de frais d’inscription' },
+  //{ valeur: '49 €', libelle: 'de frais d’inscription' },
 ];
 
 export const etapes = [
@@ -53,12 +53,12 @@ export const etapes = [
     id: 'depart',
     surtitre: 'Le départ du pèlerinage',
     heure: '7h00',
-    lieu: 'Parvis de l’église Saint-Vincent-de-Paul',
+    lieu: 'Parvis de l’Eglise Saint-Vincent-de-Paul',
     adresse: 'Square Cavaillé-Coll — 75010 Paris',
     lienCarte: 'https://maps.app.goo.gl/QZhXKN6B7t3FjCXs6',
     libelleLien: 'Point de départ',
     image: 'depart' as const,
-    alt: 'Les pèlerins rassemblés devant l’église Saint-Vincent-de-Paul au départ',
+    alt: 'Les pèlerins rassemblés devant l’Eglise Saint-Vincent-de-Paul au départ',
   },
   {
     id: 'arrivee',
@@ -69,26 +69,26 @@ export const etapes = [
     lienCarte: 'https://maps.app.goo.gl/Dehc5pfAAjdbFxfk9',
     libelleLien: 'Point d’arrivée',
     image: 'arrivee' as const,
-    alt: 'Les pèlerins à l’arrivée devant la cathédrale Notre-Dame de Chartres',
+    alt: 'Les pèlerins à l’arrivée devant la Cathédrale Notre-Dame de Chartres',
   },
 ];
 
 export const entrainements = {
   titre: 'Les sessions d’entraînement',
   texte:
-    'Pour préparer le pèlerinage, des sorties collectives sont organisées au départ de la place Franz Liszt, sur 60 à 70 km.',
-  lieu: 'Place Franz Liszt — 75010 Paris',
+    'Pour préparer le pèlerinage, des sorties collectives sont organisées au départ de la place Franz Liszt.',
+  lieu: 'Place Franz Liszt - 75010 Paris',
   distance: '60-70 km',
   dates: ['17 octobre', '14 novembre', '28 novembre', '16 janvier', '6 mars', '24 mai'],
 };
 
 export const programme = [
-  { heure: '6h30', texte: 'Rendez-vous devant l’église Saint-Vincent-de-Paul' },
+  { heure: '6h30', texte: 'Rendez-vous devant l’Eglise Saint-Vincent-de-Paul' },
   { heure: '6h45', texte: 'Bénédiction des pèlerins' },
   { heure: '7h00', texte: 'Départ des groupes de 10 personnes toutes les 3 minutes' },
   { heure: '12h00', texte: 'Arrivée à Chartres et déjeuner' },
-  { heure: '14h30', texte: 'Messe dans la cathédrale de Chartres' },
-  { heure: '15h00', texte: 'Visite de la cathédrale et retour à Paris libre' },
+  { heure: '14h30', texte: 'Messe dans la Cathédrale de Chartres' },
+  { heure: '15h00', texte: 'Visite de la Cathédrale et retour à Paris libre' },
 ];
 
 export const conditions = [
