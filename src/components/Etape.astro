@@ -20,13 +20,13 @@ const { id, surtitre, heure, lieu, adresse, lienCarte, libelleLien, image, alt, 
 ---
 
 <section id={id} class="scroll-mt-20 py-16 sm:py-24">
-  <div class="mx-auto grid max-w-6xl items-center gap-10 px-5 md:grid-cols-2 md:gap-14">
+  <div class="mx-auto grid max-w-6xl items-center gap-10 px-5 md:grid-cols-[1.15fr_1fr] md:gap-14">
     <div class={inverse ? 'md:order-2' : ''}>
       <Image
         src={image}
         alt={alt}
         widths={[480, 800, 1200]}
-        sizes="(max-width: 768px) 100vw, 560px"
+        sizes="(max-width: 768px) 100vw, 640px"
         class="aspect-4/3 w-full rounded-2xl object-cover"
         loading="lazy"
       />

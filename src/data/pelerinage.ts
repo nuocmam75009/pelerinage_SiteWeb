@@ -72,6 +72,15 @@ export const etapes = [
   },
 ];
 
+export const entrainements = {
+  titre: 'Les sessions d’entraînement',
+  texte:
+    'Pour préparer le pèlerinage, des sorties collectives sont organisées au départ de la place Franz Liszt, sur 60 à 70 km.',
+  lieu: 'Place Franz Liszt — 75010 Paris',
+  distance: '60-70 km',
+  dates: ['17 octobre', '14 novembre', '28 novembre', '16 janvier', '6 mars', '24 mai'],
+};
+
 export const programme = [
   { heure: '6h30', texte: 'Rendez-vous devant l’église Saint-Vincent-de-Paul' },
   { heure: '6h45', texte: 'Bénédiction des pèlerins' },
@@ -87,7 +96,6 @@ export const conditions = [
   'Porter le maillot du pèlerinage',
   'Respecter le code de la route',
   'Avoir une assurance responsabilité civile',
-  'Régler les frais d’inscription de 49 € (maillot, gourde, pique-nique, voiture balai, etc.). Ces frais ne comprennent pas les éventuels billets de train.',
 ];
 
 export const navigation = [
@@ -95,6 +103,7 @@ export const navigation = [
   { href: '#arrivee', libelle: 'L’arrivée' },
   { href: '#parcours', libelle: 'Le parcours' },
   { href: '#programme', libelle: 'Programme' },
+  { href: '#entrainements', libelle: 'Entraînements' },
   { href: '#maillot', libelle: 'Le maillot' },
   { href: '#conditions', libelle: 'Conditions' },
 ];
