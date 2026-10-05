@@ -8,7 +8,7 @@ export const site = {
   titre: 'Pèlerinage cycliste Paris - Chartres',
   author: 'Eglise Saint-Vincent de Paul',
   description:
-    'Deuxième édition du pèlerinage cycliste Paris — Chartres, le samedi 12 juin 2027. 100 km de Saint-Vincent-de-Paul à la cathédrale Notre-Dame de Chartres.',
+    'Deuxième édition du pèlerinage cycliste Paris - Chartres, le samedi 12 juin 2027. 100 km de Saint-Vincent-de-Paul à la cathédrale Notre-Dame de Chartres.',
   url: 'https://pelerinagecycliste.fr',
   email: 'contact@pelerinagecycliste.fr',
   lienInscription:
@@ -16,7 +16,7 @@ export const site = {
 };
 
 export const edition = {
-  accroche: 'Bravo aux 40 participants du 1ᵉʳ pèlerinage cycliste Paris-Chartres !',
+  accroche: 'Bravo aux 40 participants du 1ᵉʳ pèlerinage cycliste Paris - Chartres !',
   annonce: 'Rendez-vous en 2027 pour la deuxième édition :',
   date: 'le samedi 12 juin 2027',
   dateISO: '2027-06-12',
@@ -54,7 +54,7 @@ export const etapes = [
     surtitre: 'Le départ du pèlerinage',
     heure: '7h00',
     lieu: 'Parvis de l’Eglise Saint-Vincent-de-Paul',
-    adresse: 'Square Cavaillé-Coll — 75010 Paris',
+    adresse: 'Square Cavaillé-Coll, 75010 Paris',
     lienCarte: 'https://maps.app.goo.gl/QZhXKN6B7t3FjCXs6',
     libelleLien: 'Point de départ',
     image: 'depart' as const,
@@ -65,7 +65,7 @@ export const etapes = [
     surtitre: 'L’arrivée du pèlerinage',
     heure: '12h00',
     lieu: 'Cathédrale Notre-Dame de Chartres',
-    adresse: '16, Cloître Notre-Dame — 28000 Chartres',
+    adresse: '16, Cloître Notre-Dame, 28000 Chartres',
     lienCarte: 'https://maps.app.goo.gl/Dehc5pfAAjdbFxfk9',
     libelleLien: 'Point d’arrivée',
     image: 'arrivee' as const,
@@ -77,7 +77,7 @@ export const entrainements = {
   titre: 'Les sessions d’entraînement',
   texte:
     'Pour préparer le pèlerinage, des sorties collectives sont organisées au départ de la place Franz Liszt.',
-  lieu: 'Place Franz Liszt - 75010 Paris',
+  lieu: 'Place Franz Liszt, 75010 Paris',
   distance: '60-70 km',
   dates: ['17 octobre', '14 novembre', '28 novembre', '16 janvier', '6 mars', '24 mai'],
 };
@@ -92,7 +92,7 @@ export const programme = [
 ];
 
 export const conditions = [
-  'Pouvoir rouler avec une moyenne d’au moins 20 km/h sur 100 km, ou opter pour l’option Paris-Rambouillet en train puis vélo de Rambouillet jusqu’à Chartres (43 km)',
+  'Pouvoir rouler avec une moyenne d’au moins 20 km/h sur 100 km, ou opter pour l’option Paris - Rambouillet en train puis vélo de Rambouillet jusqu’à Chartres (43 km)',
   'Porter un casque de cyclisme',
   'Porter le maillot du pèlerinage',
   'Respecter le code de la route',
