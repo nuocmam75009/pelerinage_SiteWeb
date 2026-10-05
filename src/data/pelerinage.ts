@@ -5,7 +5,8 @@
 
 export const site = {
   nom: 'Pèlerinage cycliste',
-  titre: 'Pèlerinage cycliste Paris — Chartres',
+  titre: 'Pèlerinage cycliste Paris - Chartres',
+  author: 'Eglise Saint-Vincent de Paul',
   description:
     'Deuxième édition du pèlerinage cycliste Paris — Chartres, le samedi 12 juin 2027. 100 km de Saint-Vincent-de-Paul à la cathédrale Notre-Dame de Chartres.',
   url: 'https://pelerinagecycliste.fr',
