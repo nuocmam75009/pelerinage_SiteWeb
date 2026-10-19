@@ -79,7 +79,7 @@ export const entrainements = {
     'Pour préparer le pèlerinage, des sorties collectives sont organisées au départ de la place Franz Liszt.',
   lieu: 'Place Franz Liszt, 75010 Paris',
   distance: '60-70 km',
-  dates: ['17 octobre', '14 novembre', '28 novembre', '16 janvier', '6 mars', '24 mai'],
+  dates: ['14 novembre', '28 novembre', '16 janvier', '6 mars', '24 mai'],
 };
 
 export const programme = [
