@@ -97,6 +97,7 @@ export const conditions = [
   'Porter le maillot du pèlerinage',
   'Respecter le code de la route',
   'Avoir une assurance responsabilité civile',
+  'Être majeur(e)'
 ];
 
 export const navigation = [

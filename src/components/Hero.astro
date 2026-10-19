@@ -1,28 +1,28 @@
 ---
 import { Image } from 'astro:assets';
-import banniere from '../assets/banniere.jpg';
+import logo from '../assets/logo-white-pele.png';
 import { site, edition, chiffres } from '../data/pelerinage';
 import Bouton from './Bouton.astro';
 ---
 
 <!--
-  Toute la section rose tient sur une hauteur d'écran : elle occupe au minimum
-  la fenêtre moins l'en-tête, et son contenu y est centré. C'est la hauteur du
-  bandeau qui est bornée (34 % de la hauteur d'écran, plafonné à 420 px pour ne
-  pas devenir démesuré sur un grand moniteur) ; le texte, lui, garde sa taille.
-  `svh` tient compte de la barre d'adresse mobile, et `min-h` cède si le
-  contenu ne rentre vraiment pas : rien n'est jamais tronqué.
+  La section rose occupe au minimum la fenêtre moins l'en-tête, et son contenu
+  y est centré. Le logo est calé sur la même largeur que le bloc de texte
+  (max-w-3xl) ; sur un écran bas, une hauteur plafond prend le relais pour
+  qu'il n'écrase pas le reste du contenu. `svh` tient compte de la barre
+  d'adresse mobile, et `min-h` cède si le contenu ne rentre vraiment pas :
+  rien n'est jamais tronqué.
 -->
 <section
   id="top"
   class="flex hero min-h-[calc(100svh-4.5rem)] flex-col items-center justify-center gap-8 bg-rose px-5 py-8"
 >
   <Image
-    src={banniere}
+    src={logo}
     alt="Pèlerinage cycliste — de Paris à Chartres à vélo"
-    widths={[480, 640, 960]}
-    sizes="(max-width: 640px) 100vw, 620px"
-    class="hero-bandeau max-h-[min(34svh,420px)] w-auto max-w-full object-contain"
+    widths={[480, 640, 730, 960]}
+    sizes="(max-width: 730px) 100vw, 45.6rem"
+    class="hero-bandeau w-full max-w-[45.6rem] object-contain"
     loading="eager"
     fetchpriority="high"
   />
@@ -77,6 +77,10 @@ import Bouton from './Bouton.astro';
     .hero {
       gap: 1.5rem;
       padding-block: 1.25rem;
+    }
+
+    .hero-bandeau {
+      max-height: 34svh;
     }
 
     .hero-titre {
