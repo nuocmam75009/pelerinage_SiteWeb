@@ -100,6 +100,115 @@ export const conditions = [
   'Être majeur(e)'
 ];
 
+/**
+ * Une réponse peut contenir un texte, une liste à puces, ou les deux.
+ * Les adresses web (https://…) dans le texte deviennent des liens cliquables.
+ */
+type QuestionFaq = { question: string; reponse?: string; liste?: string[] };
+
+export const faq: { titre: string; rubriques: { titre: string; questions: QuestionFaq[] }[] } = {
+  titre: 'FAQ – Pèlerinage cycliste (Paris → Chartres)',
+  rubriques: [
+    {
+      titre: 'Le parcours',
+      questions: [
+        {
+          question: 'Quelle est la distance et le dénivelé ?',
+          reponse: '100 km avec 790 m de dénivelé positif.',
+        },
+        {
+          question: 'Combien de temps faut-il compter ?',
+          reponse:
+            'Environ 4h30 à allure modérée (23 km/h). Les plus détendus rouleront à 20 km/h, et les cyclistes un peu plus à l’aise iront facilement au-delà de 23 km/h. Cette durée ne comprend ni les pauses (2 pauses de 10 min chacune) ni les imprévus (ex : crevaison).',
+        },
+        {
+          question: 'Quel niveau faut-il avoir ?',
+          reponse: 'Il est recommandé d’avoir déjà roulé 100 km en vélo de route.',
+        },
+        {
+          question: 'Y a-t-il une trace GPX ?',
+          reponse: 'Oui, la trace GPX du parcours est fournie.',
+        },
+        {
+          question: 'Comment les pèlerins s’organisent-ils ?',
+          reponse:
+            'Le parcours se fait par groupes de niveau. Les membres de chaque groupe attendent les retardataires en haut des côtes ou lors de toute autre difficulté.',
+        },
+      ],
+    },
+    {
+      titre: 'Sécurité et règles de conduite',
+      questions: [
+        {
+          question: 'Quelles sont les règles obligatoires ?',
+          reponse:
+            'Le port du casque est obligatoire et le code de la route doit être respecté, notamment les feux rouges.',
+        },
+        {
+          question: 'Comment se placer sur la route ?',
+          reponse:
+            'On roule le plus à droite possible sur sa voie, avec au maximum deux cyclistes de front. On emprunte autant que possible les pistes cyclables. Pas de prise de risque dans les descentes : il convient de maîtriser sa vitesse et de ne jamais sortir large dans les virages.',
+        },
+        {
+          question: 'Comment rouler sur les routes plates périurbaines ?',
+          reponse:
+            'Il est recommandé de rouler en ligne, les uns derrière les autres, en prenant des relais. Pas de demi-roue, afin d’éviter tout risque d’accident.',
+        },
+        {
+          question: 'Comment signaler les dangers ?',
+          reponse:
+            'On avertit les autres des obstacles par la voix et/ou par des gestes (stop, trou, voiture, piéton, etc.).',
+        },
+      ],
+    },
+    {
+      titre: 'Équipement',
+      questions: [
+        {
+          question: 'Le maillot de l’épreuve est-il obligatoire ?',
+          reponse: 'Oui, son port est obligatoire.',
+        },
+        {
+          question: 'Que faut-il emporter ?',
+          liste: [
+            'De quoi réparer une crevaison : 2 chambres à air, une pompe à main et des démonte-pneus',
+            'Des en-cas : barres de céréales, pâtes de fruits, pâtes d’amandes, gels énergétiques…',
+            '2 bidons d’eau',
+          ],
+        },
+        {
+          question: 'Faut-il préparer son vélo ?',
+          reponse:
+            'Il est recommandé de le réviser avant la sortie, a minima la pression des pneus et les freins.',
+        },
+      ],
+    },
+    {
+      titre: 'À l’arrivée à Chartres',
+      questions: [
+        {
+          question: 'Peut-on se changer à l’arrivée ?',
+          reponse:
+            'Oui, pour ceux qui le souhaitent, il est possible de laisser la veille du départ un petit sac à son nom avec des vêtements secs.',
+        },
+        {
+          question: 'Quels sont les horaires de train pour rentrer à Paris ?',
+          reponse: 'Départs de la gare de Chartres à 15h36, 16h46 et 17h35.',
+        },
+        {
+          question: 'Combien coûte le trajet en train ?',
+          reponse: 'Compter 21 € le trajet.',
+        },
+        {
+          question: 'Faut-il réserver une place pour le vélo ?',
+          reponse:
+            'Oui, la réservation est obligatoire dans ces trains et s’ajoute au prix du billet (1 €). Elle se fait sur https://resa.velo-centrevaldeloire.fr (accepter les cookies pour que la réservation fonctionne).',
+        },
+      ],
+    },
+  ],
+};
+
 export const navigation = [
   { href: '#depart', libelle: 'Le départ' },
   { href: '#arrivee', libelle: 'L’arrivée' },
@@ -107,5 +216,6 @@ export const navigation = [
   { href: '#programme', libelle: 'Programme' },
   { href: '#entrainements', libelle: 'Entraînements' },
   { href: '#maillot', libelle: 'Le maillot' },
-  { href: '#conditions', libelle: 'Conditions' },
+  //{ href: '#conditions', libelle: 'Conditions' },
+  { href: '#faq', libelle: 'FAQ' },
 ];
